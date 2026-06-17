@@ -1,0 +1,26 @@
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon, neonConfig } from "@neondatabase/serverless";
+
+type AnyDatabase = ReturnType<typeof drizzle>;
+
+const globalForDb = globalThis as typeof globalThis & {
+  __orcaDb?: AnyDatabase;
+};
+
+function getDatabaseUrl() {
+  const value = process.env.DATABASE_URL;
+  if (!value) {
+    throw new Error("DATABASE_URL is required. Use a Neon Postgres connection string for Cloudflare compatibility.");
+  }
+  return value;
+}
+
+export async function getDb(): Promise<AnyDatabase> {
+  if (globalForDb.__orcaDb) return globalForDb.__orcaDb;
+
+  neonConfig.fetchConnectionCache = true;
+  const sql = neon(getDatabaseUrl());
+  const db = drizzle(sql);
+  globalForDb.__orcaDb = db;
+  return db;
+}
