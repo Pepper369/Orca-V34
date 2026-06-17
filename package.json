@@ -1,0 +1,41 @@
+{
+  "name": "nextjs-postgresql-template",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "cf:build": "npx @cloudflare/next-on-pages",
+    "cf:preview": "npm run cf:build && npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
+    "cf:deploy": "npm run cf:build && npx wrangler pages deploy .vercel/output/static --project-name=orca-financial-dashboard",
+    "cf:upload": "npm run cf:build && npx wrangler pages deploy .vercel/output/static --project-name=orca-financial-dashboard --branch=preview"
+  },
+  "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
+    "@neondatabase/serverless": "^1.1.0",
+    "dotenv": "17.3.1",
+    "drizzle-orm": "0.45.2",
+    "html2canvas-pro": "^2.0.4",
+    "jspdf": "^4.2.1",
+    "next": "^15.5.2",
+    "pg": "8.20.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.1.17",
+    "@types/node": "22.19.15",
+    "@types/pg": "8.18.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "drizzle-kit": "0.31.10",
+    "eslint": "9.39.4",
+    "eslint-config-next": "^15.5.2",
+    "postcss": "8.5.8",
+    "tailwindcss": "4.1.17",
+    "typescript": "5.9.3",
+    "wrangler": "^4.101.0"
+  }
+}
